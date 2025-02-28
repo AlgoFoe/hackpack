@@ -1,0 +1,35 @@
+{
+  "name": "hackpack",
+  "version": "0.0.1",
+  "description": "\"# hackpack\"",
+  "main": "bin/index.js",
+  "bin": {
+    "hackpack": "./bin/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlgoFoe/hackpack.git"
+  },
+  "keywords": [
+    "cli"
+  ],
+  "author": "yash aur varun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlgoFoe/hackpack/issues"
+  },
+  "homepage": "https://github.com/AlgoFoe/hackpack#readme",
+  "devDependencies": {
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "execa": "^9.5.2",
+    "inquirer": "^12.4.1"
+  }
+}
