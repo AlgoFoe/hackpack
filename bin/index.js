@@ -2,7 +2,7 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 
-import createNextProject from '../lib/createNextProject.js';
+import createNextProject from '../lib/createNextProject/index.js';
 import createViteProject from '../lib/createViteProject.js';
 // import createVueProject from '../lib/createVueProject.js';
 // import createAngularProject from '../lib/createAngularProject.js';
@@ -17,7 +17,7 @@ async function runCli() {
     {
       type: 'list',
       name: 'frameworkChoice',
-      message: 'Which framework would you like to use?',
+      message: 'Choose your framework:',
       choices: [
         { name: 'Next.js', value: 'next' },
         { name: 'Vite (React)', value: 'vite-react' },
@@ -31,47 +31,28 @@ async function runCli() {
     }
   ]);
 
-  let useTypeScript = false;
-
-  if (frameworkChoice !== 'angular' && frameworkChoice !== 'remix') {
-    const { languageChoice } = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'languageChoice',
-        message: 'Do you want to use JavaScript or TypeScript?',
-        choices: [
-          { name: 'TypeScript', value: 'ts' },
-          { name: 'JavaScript', value: 'js' }
-        ]
-      }
-    ]);
-
-    useTypeScript = languageChoice === 'ts';
-  }
-
   const { projectName } = await inquirer.prompt([
     {
       type: 'input',
       name: 'projectName',
       message: 'Enter the name of your project:',
-      default: 'myapp'
+      default: 'my-next-app',
+      validate: input => {
+        if (!input) return 'Project name cannot be empty';
+        if (!/^[a-zA-Z0-9-_]+$/.test(input)) return 'Project name can only contain letters, numbers, dashes, and underscores';
+        return true;
+      }
     }
   ]);
 
   try {
     switch (frameworkChoice) {
       case 'next':
-        await createNextProject({
-          projectName,
-          typescript: useTypeScript,
-        });
+        await createNextProject({projectName});
         break;
 
       case 'vite-react':
-        await createViteProject({
-          projectName,
-          typescript: useTypeScript,
-        });
+        await createViteProject({projectName});
         break;
 
       case 'remix':
@@ -81,9 +62,7 @@ async function runCli() {
 
       case 'vue':
         console.log(
-          `Scaffolding a Vue project for ${projectName} using ${
-            useTypeScript ? 'TypeScript' : 'JavaScript'
-          }...`
+          `Scaffolding a Vue project for ${projectName}...`
         );
         // await createVueProject({ projectName, typescript: useTypeScript });
         break;
@@ -95,27 +74,21 @@ async function runCli() {
 
       case 'svelte':
         console.log(
-          `Scaffolding a Svelte project for ${projectName} using ${
-            useTypeScript ? 'TypeScript' : 'JavaScript'
-          }...`
+          `Scaffolding a Svelte project for ${projectName}...`
         );
         // await createSvelteProject({ projectName, typescript: useTypeScript });
         break;
 
       case 'astro':
         console.log(
-          `Scaffolding an Astro project for ${projectName} using ${
-            useTypeScript ? 'TypeScript' : 'JavaScript'
-          }...`
+          `Scaffolding an Astro project for ${projectName}...`
         );
         // await createAstroProject({ projectName, typescript: useTypeScript });
         break;
 
       case 'nuxt':
         console.log(
-          `Scaffolding a Nuxt.js project for ${projectName} using ${
-            useTypeScript ? 'TypeScript' : 'JavaScript'
-          }...`
+          `Scaffolding a Nuxt.js project for ${projectName}...`
         );
         // await createNuxtProject({ projectName, typescript: useTypeScript });
         break;
@@ -125,7 +98,6 @@ async function runCli() {
         process.exit(1);
     }
 
-    console.log(chalk.green('All done! Your project has been created.\n'));
   } catch (error) {
     console.error(chalk.red('Error scaffolding project:'), error);
     process.exit(1);
