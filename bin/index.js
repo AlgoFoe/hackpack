@@ -4,11 +4,11 @@ import chalk from 'chalk';
 
 import createNextProject from '../lib/createNextProject/index.js';
 import createViteProject from '../lib/createViteProject.js';
-// import createVueProject from '../lib/createVueProject.js';
-// import createAngularProject from '../lib/createAngularProject.js';
+import createVueProject from '../lib/createVueProject/index.js';
+import createAngularProject from '../lib/createAngularProject/index.js';
 // import createSvelteProject from '../lib/createSvelteProject.js';
-// import createAstroProject from '../lib/createAstroProject.js';
-// import createNuxtProject from '../lib/createNuxtProject.js';
+import createAstroProject from '../lib/createAstroProject/index.js';
+import createNuxtProject from '../lib/createNuxtProject/index.js';
 
 async function runCli() {
   console.log(chalk.green.bold('\nWelcome to hackpack!'));
@@ -61,15 +61,11 @@ async function runCli() {
         break;
 
       case 'vue':
-        console.log(
-          `Scaffolding a Vue project for ${projectName}...`
-        );
-        // await createVueProject({ projectName, typescript: useTypeScript });
+        await createVueProject({ projectName});
         break;
 
       case 'angular':
-        console.log(`Scaffolding an Angular (TypeScript) project for ${projectName}...`);
-        // await createAngularProject({ projectName });
+        await createAngularProject({ projectName });
         break;
 
       case 'svelte':
@@ -79,18 +75,12 @@ async function runCli() {
         // await createSvelteProject({ projectName, typescript: useTypeScript });
         break;
 
-      case 'astro':
-        console.log(
-          `Scaffolding an Astro project for ${projectName}...`
-        );
-        // await createAstroProject({ projectName, typescript: useTypeScript });
+      case 'astro':  
+        await createAstroProject({ projectName });
         break;
 
       case 'nuxt':
-        console.log(
-          `Scaffolding a Nuxt.js project for ${projectName}...`
-        );
-        // await createNuxtProject({ projectName, typescript: useTypeScript });
+        await createNuxtProject({ projectName, typescript: useTypeScript });
         break;
 
       default:
